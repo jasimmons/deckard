@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+message KV {
+  // key is the key of this key-value pair.
+  string key = 1;
+
+  // value is the value of this key-value pair.
+  string value = 2;
+}
+
+message CheckRequest {
+  // data is an arbitrary list of key-value pairs that the
+  // Checker may require in order to execute successfully.
+  repeated KV data = 2;
+}
+
+message CheckResponse {
+  // percent is the percentage of possible points earned,
+  // represented as a floating-point value between 0.0 (0%)
+  // and 1.0 (100%). Any values less than 0.0 will be
+  // truncated to 0.0 and any values greater than 1.0 will
+  // be truncated to 1.0.
+  float percent = 1;
+
+  // weight is the total amount of points possible, if
+  // 100% of the points are earned.
+  // For example, if a Checker has a weight of 10 and a
+  // percent value of 0.5, then a total of 5 points are
+  // earned for that execution of the check.
+  int32 weight = 2;
+
+  // data is an arbitrary list of key-value pairs that the
+  // Checker may return. It is used by the server to model
+  // the state of a Checker's last execution against each
+  // unique set of request data.
+  repeated KV data = 3;
+}
+
+service Checker {
+  rpc Check(CheckRequest) returns (CheckResponse) {}
+}
