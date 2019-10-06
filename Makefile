@@ -23,3 +23,9 @@ build: ${BINDIR}/${BIN_MAC} ${BINDIR}/${BIN_LINUX}
 .PHONY:
 docker: build
 	docker build -t ${DOCKER_IMAGE_BASE}:${DOCKER_IMAGE_TAG} .
+
+.PHONY:
+clean:
+	rm ${BINDIR}/${BIN_MAC}
+	rm ${BINDIR}/${BIN_LINUX}
+	rmdir ${BINDIR}
