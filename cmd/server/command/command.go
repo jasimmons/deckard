@@ -2,10 +2,12 @@ package command
 
 import (
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 type Command struct {
 	Root *cobra.Command
+	*viper.Viper
 }
 
 func New() *Command {
@@ -13,13 +15,16 @@ func New() *Command {
 		Root: &cobra.Command{
 			Use: "deckard",
 		},
+		Viper: viper.New(),
 	}
 
 	c.Root.AddCommand(
 		c.NewServeCommand(),
 	)
 
-	c.setupFlags()
+	c.SetEnvPrefix("DECKARD")
+	c.AutomaticEnv()
+
 	return c
 }
 
@@ -29,7 +34,4 @@ func (c *Command) run(cmd *cobra.Command, args []string) error {
 
 func (c *Command) Execute() error {
 	return c.Root.Execute()
-}
-
-func (c *Command) setupFlags() {
 }
