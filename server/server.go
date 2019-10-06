@@ -11,8 +11,8 @@ import (
 type Server struct {
 	listenAddr   string
 	publicAddr   string
-	writeTimeout time.Duration
 	readTimeout  time.Duration
+	writeTimeout time.Duration
 
 	router http.Handler
 }
@@ -36,15 +36,15 @@ func ListenAddr(addr string) func(*Server) {
 	}
 }
 
-func WriteTimeout(to time.Duration) func(*Server) {
-	return func(s *Server) {
-		s.writeTimeout = to
-	}
-}
-
 func ReadTimeout(to time.Duration) func(*Server) {
 	return func(s *Server) {
 		s.readTimeout = to
+	}
+}
+
+func WriteTimeout(to time.Duration) func(*Server) {
+	return func(s *Server) {
+		s.writeTimeout = to
 	}
 }
 
@@ -59,8 +59,8 @@ func (s *Server) ListenAndServe() error {
 	srv := &http.Server{
 		Handler:      s.router,
 		Addr:         s.listenAddr,
-		WriteTimeout: s.writeTimeout,
 		ReadTimeout:  s.readTimeout,
+		WriteTimeout: s.writeTimeout,
 	}
 	return srv.ListenAndServe()
 }
