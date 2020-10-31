@@ -20,11 +20,6 @@ type ServeCommand struct {
 	// configuration is. Without an embedded Command, we would need some
 	// extra work to have Viper-bound flags and envvars.
 	*Command
-
-	listenAddr   string
-	publicAddr   string
-	readTimeout  time.Duration
-	writeTimeout time.Duration
 }
 
 func (c *Command) NewServeCommand() *cobra.Command {
@@ -38,7 +33,9 @@ func (c *Command) NewServeCommand() *cobra.Command {
 	serveCmd.Flags().String("addr", defaultListenAddr, "address for deckard server to listen on")
 	serveCmd.Flags().Duration("timeout-read", defaultReadTimeout, "timeout duration for read requests")
 	serveCmd.Flags().Duration("timeout-write", defaultWriteTimeout, "timeout duration for write requests")
-	s.BindPFlags(serveCmd.Flags())
+	if err := s.BindPFlags(serveCmd.Flags()); err != nil {
+		log.Printf("error binding flags: %s", err.Error())
+	}
 
 	return serveCmd
 }
