@@ -8,6 +8,10 @@ message KV {
   string value = 2;
 }
 
+message Model {
+  repeated KV metadata = 1;
+}
+
 message CheckRequest {
   // data is an arbitrary list of key-value pairs that the
   // Checker may require in order to execute successfully.
@@ -29,11 +33,11 @@ message CheckResponse {
   // earned for that execution of the check.
   int32 weight = 2;
 
-  // data is an arbitrary list of key-value pairs that the
+  // model is a grouping of key-value pairs that the
   // Checker may return. It is used by the server to model
   // the state of a Checker's last execution against each
   // unique set of request data.
-  repeated KV data = 3;
+  Model model = 3;
 }
 
 service Checker {
