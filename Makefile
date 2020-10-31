@@ -5,10 +5,17 @@ DOCKER_IMAGE_BASE=docker.jasonneeds.coffee/jasimmons/deckard
 DOCKER_IMAGE_TAG=$(shell git rev-parse --short HEAD)
 
 .PHONY:
-test:
+lint:
+	golangci-lint run
+
+.PHONY:
+test: lint
 	go test -v -race -cover ./...
 
 checker/checker.pb.go:
+	go generate
+
+identifier/identifier.pb.go:
 	go generate
 
 ${BINDIR}/${BIN_MAC}: checker/checker.pb.go
@@ -26,6 +33,6 @@ docker: build
 
 .PHONY:
 clean:
-	rm ${BINDIR}/${BIN_MAC}
-	rm ${BINDIR}/${BIN_LINUX}
-	rmdir ${BINDIR}
+	rm -f ${BINDIR}/${BIN_MAC}
+	rm -f ${BINDIR}/${BIN_LINUX}
+	rm -rf ${BINDIR}

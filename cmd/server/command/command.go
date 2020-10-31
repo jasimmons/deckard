@@ -6,8 +6,8 @@ import (
 )
 
 type Command struct {
-	Root *cobra.Command
 	*viper.Viper
+	Root *cobra.Command
 }
 
 func New() *Command {
@@ -26,10 +26,6 @@ func New() *Command {
 	c.AutomaticEnv()
 
 	return c
-}
-
-func (c *Command) run(cmd *cobra.Command, args []string) error {
-	return cmd.Help()
 }
 
 func (c *Command) Execute() error {

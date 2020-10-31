@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+message Pair {
+  // key is the key of this key-value pair.
+  string key = 1;
+
+  // value is the value of this key-value pair.
+  string value = 2;
+}
+
+message IdentifyRequest {
+  // data is an arbitrary list of key-value pairs that the
+  // Identifier may require in order to execute successfully.
+  repeated Pair data = 1;
+}
+
+message IdentifyResponse {
+  // model is a grouping of key-value pairs that the
+  // Identifier may return. It is used by the server to model
+  // the state of a Identifier's last execution against each
+  // unique set of request data.
+  repeated Pair data = 1;
+}
+
+service Identifier {
+  rpc Identify(IdentifyRequest) returns (IdentifyResponse) {}
+}
