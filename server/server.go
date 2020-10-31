@@ -47,9 +47,9 @@ func New(opts ...func(*Server)) *Server {
 	}
 
 	r := mux.NewRouter()
-	r.HandleFunc("/identifiers", s.listIdentifiersHandler).Methods("GET")
-	r.HandleFunc("/identifiers/{identifierId}", s.getIdentifierHandler).Methods("GET")
-	r.HandleFunc("/identifiers", s.createIdentifierHandler).Methods("PUT")
+	r.HandleFunc("/ids", s.listIdentifiersHandler).Methods("GET")
+	r.HandleFunc("/ids/{identifierId}", s.getIdentifierHandler).Methods("GET")
+	r.HandleFunc("/ids", s.createIdentifierHandler).Methods("PUT")
 	s.router = r
 
 	return s
